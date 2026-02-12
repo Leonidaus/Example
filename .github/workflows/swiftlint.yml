@@ -1,0 +1,23 @@
+name: Run swiftlint
+
+on: 
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: 
+
+permissions:
+  checks: write        # Required to add status summary.
+  contents: read       # Required to checkout repository.
+
+jobs:
+  swiftlint:
+    runs-on: ubuntu-latest
+    name: Run swiftlint
+    steps:
+        - uses: actions/checkout@v6
+        - name: GitHub Action for SwiftLint
+          # Pin to a specific commit for security
+          uses: cirruslabs/swiftlint-action@37b78e658ba6bcb1679df34819a4a8d8c269a940
+          with:
+            version: latest
