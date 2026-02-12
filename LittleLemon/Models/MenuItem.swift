@@ -8,7 +8,7 @@ struct MenuItem: Identifiable, MenuItemProtocol, Hashable {
     var orderCount: Int
     var price2: Int
     var ingredients: [Ingredient]
-    
+
     init(title: String, menu: MenuCategory, price: Double, orderCount: Int = 0, price2: Int = 0, ingredients: [Ingredient] = []) {
         self.title = title
         self.menu = menu

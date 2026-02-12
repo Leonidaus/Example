@@ -4,7 +4,7 @@ import SwiftUI
 struct CustomNavBar: View {
     var title: String
     var contentPadding: EdgeInsets = EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16)
-    var rightButtonAction: (() -> Void)? = nil
+    var rightButtonAction: (() -> Void)?
 
     init(title: String, contentPadding: EdgeInsets, rightButtonAction: (() -> Void)? = nil) {
         self.title = title

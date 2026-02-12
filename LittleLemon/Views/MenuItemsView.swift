@@ -1,14 +1,12 @@
 import SwiftUI
 
 struct MenuItemsView: View {
-    
+
     @State private var showMenuOptions: Bool = false
-    
+
     @StateObject private var viewModel: MenuViewViewModel
-    
+
     @State private var selectedItem: MenuItem?
-
-
 
     var category: MenuCategory
 
@@ -17,7 +15,6 @@ struct MenuItemsView: View {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
-
     var items: [MenuItem] {
         switch category {
         case .food: return viewModel.foodMenuItems
@@ -25,17 +22,17 @@ struct MenuItemsView: View {
         case .dessert: return viewModel.dessertMenuItems
         }
     }
-        
+
     var body: some View {
 
         let navBarHeight: CGFloat = 0
 
         ZStack(alignment: .top) {
-            
+
             NavigationStack {
 
                 List {
-                    if viewModel.selectedCategories.contains(.Food) {
+                    if viewModel.selectedCategories.contains(.food) {
                         VStack {
                             Text("Food")
                             GridView(
@@ -52,7 +49,7 @@ struct MenuItemsView: View {
 
                         }.listRowSeparator(.hidden)
                     }
-                        if viewModel.selectedCategories.contains(.Drink) {
+                        if viewModel.selectedCategories.contains(.drink) {
                         VStack {
                             Text("Drinks")
                             GridView(items: viewModel.drinkMenuItems,
@@ -66,7 +63,7 @@ struct MenuItemsView: View {
                             }
                         }.listRowSeparator(.hidden)
                     }
-                    if viewModel.selectedCategories.contains(.Dessert) {
+                    if viewModel.selectedCategories.contains(.dessert) {
                         VStack {
                             Text("Desserts")
                             GridView(items: viewModel.dessertMenuItems,
@@ -112,10 +109,8 @@ struct MenuItemsView: View {
                 MenuItemsOptionView(viewModel: viewModel)
             }
 
-
         }
-        
+
         .ignoresSafeArea(edges: .top)
     }
 }
-

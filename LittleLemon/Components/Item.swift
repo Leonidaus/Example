@@ -14,7 +14,7 @@ struct Item: View {
             )
             return URL(string: "https://loremflickr.com/320/240/\(encoded ?? "food")")
         }
-    
+
     var body: some View {
         VStack(spacing: 8) {
 

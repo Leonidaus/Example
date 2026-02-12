@@ -1,20 +1,36 @@
 import SwiftUI
 import Foundation
 
-enum SelectedCategory: String, CaseIterable, Identifiable {
-    case Food = "Food"
-    case Drink = "Drink"
-    case Dessert = "Dessert"
-    
-    var id: String {self.rawValue}
+enum SelectedCategory: CaseIterable, Identifiable {
+    case food
+    case drink
+    case dessert
+
+    var id: Self { self }
+
+    var title: String {
+        switch self {
+        case .food: return "Food"
+        case .drink: return "Drink"
+        case .dessert: return "Dessert"
+        }
+    }
 }
 
-enum SortMenuItems: String, CaseIterable, Identifiable {
-    case MostPopular = "Most Popular"
-    case Price = "Price $-$$$"
-    case Alphabet = "A-Z"
-    
-    var id: String {self.rawValue}
+enum SortMenuItems: CaseIterable, Identifiable {
+    case mostPopular
+    case price
+    case alphabet
+
+    var id: Self { self }
+
+    var title: String {
+        switch self {
+        case .mostPopular: return "Most Popular"
+        case .price: return "Price $-$$$"
+        case .alphabet: return "A-Z"
+        }
+    }
 }
 
 struct MenuItemsOptionView: View {
@@ -26,14 +42,14 @@ struct MenuItemsOptionView: View {
             List {
                 Section("Category") {
                     ForEach(SelectedCategory.allCases) { category in
-                        Button(category.rawValue) {
+                        Button(category.title) {
                             viewModel.filterCategory(category)
                         }
                     }
                 }
                 Section("Sort Items") {
                     ForEach(SortMenuItems.allCases) { method in
-                        Button(method.rawValue) {
+                        Button(method.title) {
                             viewModel.sortItems(by: method)
                         }
                     }

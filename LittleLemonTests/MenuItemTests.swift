@@ -2,8 +2,7 @@ import XCTest
 @testable import LittleLemon
 
 final class MenuItemTests: XCTestCase {
-    
-    
+
     func testMenuItemTitleInitialization() {
         let fakeTitle = "Fake Title"
         let item = MenuItem(title: fakeTitle,
@@ -14,7 +13,7 @@ final class MenuItemTests: XCTestCase {
                             ingredients: [Ingredient.broccoli])
         XCTAssertEqual(item.title, fakeTitle)
     }
-    
+
     func testMenuItemIngredientInitialization() {
         let fakeIngredients: [Ingredient] = [.broccoli, .carrot]
         let item = MenuItem(
@@ -27,5 +26,5 @@ final class MenuItemTests: XCTestCase {
         )
         XCTAssertEqual(fakeIngredients, item.ingredients)
     }
-        
+
 }

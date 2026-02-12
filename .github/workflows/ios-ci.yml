@@ -11,13 +11,22 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      # Checkout repo
       - uses: actions/checkout@v3
 
+      # Install dependencies
       - name: Install SwiftLint
         run: brew install swiftlint
 
+      # Run SwiftLint in strict mode (fails build if any error)
       - name: Run SwiftLint
-        run: swiftlint
+        run: swiftlint --strict
 
-      - name: Build
-        run: xcodebuild -scheme YourSchemeName -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 15' build
+      # Run unit tests
+      - name: Run Tests
+        run: |
+          xcodebuild test \
+          -scheme "LittleLemon" \
+          -destination 'platform=iOS Simulator,name=iPhone 17,OS=16.2' \
+          -enableCodeCoverage YES \
+          -quiet

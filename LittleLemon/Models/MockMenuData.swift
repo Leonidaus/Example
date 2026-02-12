@@ -16,7 +16,7 @@ struct MockMenuData {
         MenuItem(title: "Chicken Alfredo", menu: .food, price: 12.49, orderCount: 0, price2: 12, ingredients: []),
         MenuItem(title: "Caesar Salad", menu: .food, price: 7.99, orderCount: 0, price2: 8, ingredients: [])
     ]
-    
+
     let drink: [MenuItem] = [
         MenuItem(title: "Water", menu: .drink, price: 1.99, orderCount: 0, price2: 2, ingredients: []),
         MenuItem(title: "Milk", menu: .drink, price: 2.49, orderCount: 2, price2: 2, ingredients: []),
@@ -27,7 +27,7 @@ struct MockMenuData {
         MenuItem(title: "Smoothie", menu: .drink, price: 4.99, orderCount: 1, price2: 5, ingredients: []),
         MenuItem(title: "Soda", menu: .drink, price: 1.99, orderCount: 0, price2: 2, ingredients: [])
     ]
-    
+
     let dessert: [MenuItem] = [
         MenuItem(title: "Chocolate Cake", menu: .dessert, price: 4.99, orderCount: 0, price2: 5, ingredients: []),
         MenuItem(title: "Ice Cream", menu: .dessert, price: 3.99, orderCount: 2, price2: 4, ingredients: []),
