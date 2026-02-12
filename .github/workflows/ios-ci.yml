@@ -1,57 +1,60 @@
 name: iOS CI
-2
-3on:
-4  push:
-5    branches: [ main ]
-6  pull_request:
-7    branches: [ main ]
-8
-9jobs:
-10  build:
-11    runs-on: macos-latest
-12    
-13    steps:
-14      # Checkout repo
-15      - uses: actions/checkout@v4
-16      
-17      # Set up Xcode
-18      - name: Set up Xcode
-19        uses: maxim-lobanov/setup-xcode@v1
-20        with:
-21          xcode-version: 'latest-stable'
-22      
-23      # List available simulators (for debugging)
-24      - name: List available simulators
-25        run: xcrun simctl list devices available
-26      
-27      # Install dependencies
-28      - name: Install SwiftLint
-29        run: brew install swiftlint
-30      
-31      # Run SwiftLint in strict mode (fails build if any error)
-32      - name: Run SwiftLint
-33        run: swiftlint --strict
-34      
-35      # Run unit tests with iPhone 17 (fallback to latest available)
-36      - name: Run Tests
-37        run: |
-38          # Try to find iPhone 17 first, then fall back to latest iPhone
-39          DEVICE=$(xcrun simctl list devices available iPhone | grep -m 1 "iPhone 17" | sed -E 's/.*\(([^)]+)\).*/\1/' || \
-40                   xcrun simctl list devices available iPhone | grep -m 1 "iPhone" | sed -E 's/.*\(([^)]+)\).*/\1/')
-41          
-42          echo "Using device: $DEVICE"
-43          
-44          xcodebuild test \
-45            -scheme "LittleLemon" \
-46            -destination "platform=iOS Simulator,id=$DEVICE" \
-47            -enableCodeCoverage YES \
-48            -resultBundlePath TestResults \
-49            | xcpretty --color --report html
-50      
-51      # Upload test results
-52      - name: Upload test results
-53        if: always()
-54        uses: actions/upload-artifact@v4
-55        with:
-56          name: test-results
-57          path: TestResults
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+      # Checkout repo
+      - uses: actions/checkout@v4
+      
+      # Set up Xcode
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 'latest-stable'
+      
+      # List available simulators (for debugging)
+      - name: List available simulators
+        run: xcrun simctl list devices available
+      
+      # Install dependencies
+      - name: Install SwiftLint
+        run: brew install swiftlint
+      
+      # Run SwiftLint in strict mode (fails build if any error)
+      - name: Run SwiftLint
+        run: swiftlint --strict
+      
+      # Run unit tests
+      - name: Run Tests
+        run: |
+          # Try iOS 17 first, fallback to latest available
+          if xcrun simctl list devices available | grep -q "iOS 17"; then
+            DESTINATION='platform=iOS Simulator,name=iPhone 15,OS=17.5'
+          else
+            DESTINATION='platform=iOS Simulator,name=iPhone 15,OS=latest'
+          fi
+          
+          echo "Using destination: $DESTINATION"
+          
+          xcodebuild test \
+            -scheme "LittleLemon" \
+            -destination "$DESTINATION" \
+            -enableCodeCoverage YES \
+            -resultBundlePath TestResults \
+            -quiet
+      
+      # Upload test results
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults
