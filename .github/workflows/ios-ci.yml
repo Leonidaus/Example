@@ -8,25 +8,36 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-26 
 
     steps:
-      # Checkout repo
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      # Install dependencies
-      - name: Install SwiftLint
-        run: brew install swiftlint
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '26.2' 
 
-      # Run SwiftLint in strict mode (fails build if any error)
       - name: Run SwiftLint
         run: swiftlint --strict
 
-      # Run unit tests
-      - name: Run Tests
+      - name: Run Tests with Fallback
         run: |
-          xcodebuild test \
+          # 1. Look for iPhone 17 first.
+          # 2. If not found, look for iPhone 16.
+          # 3. If neither, just grab the first 'iPhone' simulator available.
+          
+          DESTINATION=$(xcrun simctl list devices available | grep -m 1 "iPhone 17" || \
+                         xcrun simctl list devices available | grep -m 1 "iPhone 16" || \
+                         xcrun simctl list devices available | grep -m 1 "iPhone")
+          
+          # Extract the name from the string (e.g., "iPhone 17 (UUID)")
+          DEVICE_NAME=$(echo $DESTINATION | sed 's/ (.*//')
+          
+          echo "🚀 Testing on: $DEVICE_NAME"
+
+          set -o pipefail && xcodebuild test \
           -scheme "LittleLemon" \
-          -destination 'platform=iOS Simulator,name=iPhone 17,OS=16.2' \
+          -destination "platform=iOS Simulator,name=$DEVICE_NAME,OS=latest" \
           -enableCodeCoverage YES \
-          -quiet
+          | xcpretty
