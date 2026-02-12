@@ -35,18 +35,9 @@ jobs:
       # Run unit tests
       - name: Run Tests
         run: |
-          # Try iOS 17 first, fallback to latest available
-          if xcrun simctl list devices available | grep -q "iOS 17"; then
-            DESTINATION='platform=iOS Simulator,name=iPhone 15,OS=17.5'
-          else
-            DESTINATION='platform=iOS Simulator,name=iPhone 15,OS=latest'
-          fi
-          
-          echo "Using destination: $DESTINATION"
-          
           xcodebuild test \
             -scheme "LittleLemon" \
-            -destination "$DESTINATION" \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.2' \
             -enableCodeCoverage YES \
             -resultBundlePath TestResults \
             -quiet
