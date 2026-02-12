@@ -23,6 +23,10 @@ jobs:
       # List available simulators (for debugging)
       - name: List available simulators
         run: xcrun simctl list devices available
+
+      # Fix permissions for SwiftLint config
+      - name: Fix SwiftLint config permissions
+        run: chmod 644 .swiftlint.yml
       
       # Install dependencies
       - name: Install SwiftLint
