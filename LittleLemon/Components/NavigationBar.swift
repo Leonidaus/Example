@@ -1,6 +1,5 @@
 import SwiftUI
 
-// MARK: - Custom Navigation Bar Component
 struct CustomNavBar: View {
     var title: String
     var contentPadding: EdgeInsets = EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16)
@@ -33,39 +32,5 @@ struct CustomNavBar: View {
         }
         .padding(contentPadding)
         .background(Color.blue)
-    }
-}
-
-// MARK: - Sample Screen to Simulate Navbar
-struct SampleScreen: View {
-    var body: some View {
-        VStack(spacing: 0) {
-            // Use the custom navbar here
-            CustomNavBar(title: "Home", horizontal: 30, vertical: 44) {
-                print("Right button tapped!")
-            }
-            Divider() // Optional: visual separation
-            Spacer()
-            Text("This is the main content area")
-                .font(.title2)
-                .foregroundColor(.gray)
-            Spacer()
-        }
-        .edgesIgnoringSafeArea(.top) // Makes navbar appear at the top
-    }
-}
-
-// MARK: - Preview / Simulation in Code
-struct SampleScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            SampleScreen()
-                .previewDisplayName("Light Mode")
-                .preferredColorScheme(.light)
-
-            SampleScreen()
-                .previewDisplayName("Dark Mode")
-                .preferredColorScheme(.dark)
-        }
     }
 }

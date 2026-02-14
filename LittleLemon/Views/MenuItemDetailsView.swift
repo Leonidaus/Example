@@ -10,16 +10,12 @@ struct MenuItemDetailsView: View {
 
                 Image("Image")
                     .resizable()
-                    .aspectRatio(1, contentMode: .fit)
-                    .padding()
-
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 150, height: 150)
                 Divider()
-
                 VStack(alignment: .leading, spacing: 12) {
 
-                    Text("Price:")
-                        .font(.headline)
-                    Text(String(format: "%.2f", item.price))
+                    CalculatorView(value: item.price)
 
                     Text("Rating:")
                         .font(.headline)

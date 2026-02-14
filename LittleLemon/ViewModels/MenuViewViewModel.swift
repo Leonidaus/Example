@@ -54,9 +54,9 @@ class MenuViewViewModel: ObservableObject {
             let (burgers, drinks, desserts) = try await (burgersDTO, drinksDTO, dessertsDTO)
             
             await MainActor.run {
-                self.burgerMenuItems = burgers.map { FoodItem(from: $0, category: .burgers) }
-                self.drinkMenuItems = drinks.map { FoodItem(from: $0, category: .drinks) }
-                self.dessertMenuItems = desserts.map { FoodItem(from: $0, category: .desserts) }
+                self.burgerMenuItems = burgers.compactMap { FoodItem(from: $0, category: .burgers) }
+                self.drinkMenuItems = drinks.compactMap { FoodItem(from: $0, category: .drinks) }
+                self.dessertMenuItems = desserts.compactMap { FoodItem(from: $0, category: .desserts) }
                 self.isLoading = false
             }
         } catch {
