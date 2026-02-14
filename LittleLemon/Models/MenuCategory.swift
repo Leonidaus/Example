@@ -1,16 +1,16 @@
 enum MenuCategory: String {
-    case food
-    case drink
-    case dessert
+    case burgers
+    case drinks
+    case desserts
 
     var title: String {
         switch self {
-        case .food:
-            return "Food"
-        case .drink:
-            return "Drink"
-        case .dessert:
-            return "Dessert"
+        case .burgers:
+            return "Burgers"
+        case .drinks:
+            return "Drinks"
+        case .desserts:
+            return "Desserts"
         }
     }
 }

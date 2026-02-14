@@ -6,7 +6,7 @@ struct MenuItemsView: View {
 
     @StateObject private var viewModel: MenuViewViewModel
 
-    @State private var selectedItem: MenuItem?
+    @State private var selectedItem: FoodItem?
 
     var category: MenuCategory
 
@@ -15,11 +15,11 @@ struct MenuItemsView: View {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
-    var items: [MenuItem] {
+    var items: [FoodItem] {
         switch category {
-        case .food: return viewModel.foodMenuItems
-        case .drink: return viewModel.drinkMenuItems
-        case .dessert: return viewModel.dessertMenuItems
+        case .burgers: return viewModel.burgerMenuItems
+        case .drinks: return viewModel.drinkMenuItems
+        case .desserts: return viewModel.dessertMenuItems
         }
     }
 
@@ -28,69 +28,36 @@ struct MenuItemsView: View {
         let navBarHeight: CGFloat = 0
 
         ZStack(alignment: .top) {
-
             NavigationStack {
-
-                List {
-                    if viewModel.selectedCategories.contains(.food) {
-                        VStack {
-                            Text("Food")
-                            GridView(
-                                items: viewModel.foodMenuItems,
-                                columns: [GridItem(.flexible()), GridItem(.flexible())]
-                            ) { item in
-                                Button {
-                                    selectedItem = item
-                                } label: {
-                                    Item(title: item.title)
-                                }
-                                .buttonStyle(.plain)
+                ScrollView {
+                    LazyVStack {
+                        if viewModel.isLoading {
+                            ProgressView("Fetching deliciousness")
+                        } else if let error = viewModel.errorMessage {
+                            Text("\(error) is the only thing keeping you away from sweets")
+                        } else {
+                            if viewModel.selectedCategories.contains(.burgers) {
+                                CategorySection(title: "Burger", items: viewModel.burgerMenuItems) { selectedItem = $0 }
                             }
-
-                        }.listRowSeparator(.hidden)
-                    }
-                        if viewModel.selectedCategories.contains(.drink) {
-                        VStack {
-                            Text("Drinks")
-                            GridView(items: viewModel.drinkMenuItems,
-                                     columns: [GridItem(.flexible()), GridItem(.flexible())]) { item in
-                                Button {
-                                    selectedItem = item
-                                } label: {
-                                    Item(title: item.title)
-                                }
-                                .buttonStyle(.plain)
+                            if viewModel.selectedCategories.contains(.drinks) {
+                                CategorySection(title: "Drinks", items: viewModel.drinkMenuItems) { selectedItem = $0}
                             }
-                        }.listRowSeparator(.hidden)
-                    }
-                    if viewModel.selectedCategories.contains(.dessert) {
-                        VStack {
-                            Text("Desserts")
-                            GridView(items: viewModel.dessertMenuItems,
-                                     columns: [GridItem(.flexible()), GridItem(.flexible())]) { item in
-                                Button {
-                                    selectedItem = item
-                                } label: {
-                                    Item(title: item.title)
-                                }
-                                .buttonStyle(.plain)
+                            if viewModel.selectedCategories.contains(.desserts) {
+                                CategorySection(title: "Desserts", items: viewModel.dessertMenuItems) { selectedItem = $0}
                             }
-                        }.listRowSeparator(.hidden)
+                        }
                     }
                 }
                 .navigationTitle("Menu")
                 .listStyle(.plain)
                 .padding(.top, navBarHeight)
 
-            }.sheet(item: $selectedItem) { item in
+            }
+            .sheet(item: $selectedItem) { item in
                 NavigationStack {
-                    MenuItemDetailsView(
-                        title: item.title,
-                        price: item.price,
-                        orderCount: item.orderCount,
-                        ingredients: item.ingredients
+                    MenuItemDetailsView(item: item
                     )
-                    .navigationTitle(item.title)
+                    .navigationTitle(item.name)
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
                             Button("Back") { selectedItem = nil }
@@ -110,7 +77,9 @@ struct MenuItemsView: View {
             }
 
         }
-
+        .task {
+            await viewModel.loadApiData()
+        }
         .ignoresSafeArea(edges: .top)
     }
 }

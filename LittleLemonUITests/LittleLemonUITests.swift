@@ -26,6 +26,7 @@ final class LittleLemonUITests: XCTestCase {
     func testExample() throws {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
+        app.launchEnvironment["MOCK_DATA"] = "1"
         app.launch()
 
         // Use XCTAssert and related functions to verify your tests produce the correct results.

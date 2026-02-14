@@ -2,17 +2,17 @@ import SwiftUI
 import Foundation
 
 enum SelectedCategory: CaseIterable, Identifiable {
-    case food
-    case drink
-    case dessert
+    case burgers
+    case drinks
+    case desserts
 
     var id: Self { self }
 
     var title: String {
         switch self {
-        case .food: return "Food"
-        case .drink: return "Drink"
-        case .dessert: return "Dessert"
+        case .burgers: return "Burger"
+        case .drinks: return "Drink"
+        case .desserts: return "Dessert"
         }
     }
 }
@@ -43,7 +43,7 @@ struct MenuItemsOptionView: View {
                 Section("Category") {
                     ForEach(SelectedCategory.allCases) { category in
                         Button(category.title) {
-                            viewModel.filterCategory(category)
+                            viewModel.toggleCategory(category)
                         }
                     }
                 }

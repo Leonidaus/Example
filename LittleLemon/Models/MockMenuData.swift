@@ -2,36 +2,41 @@ import Foundation
 
 struct MockMenuData {
 
-    let food: [MenuItem] = [
-        MenuItem(title: "Pizza", menu: .food, price: 12.99, orderCount: 2, price2: 13, ingredients: [Ingredient.broccoli]),
-        MenuItem(title: "Pasta", menu: .food, price: 10.49, orderCount: 0, price2: 10, ingredients: []),
-        MenuItem(title: "Burger", menu: .food, price: 9.99, orderCount: 0, price2: 10, ingredients: []),
-        MenuItem(title: "Steak", menu: .food, price: 18.99, orderCount: 0, price2: 19, ingredients: []),
-        MenuItem(title: "Mashed Potatoes", menu: .food, price: 5.99, orderCount: 0, price2: 6, ingredients: []),
-        MenuItem(title: "Tacos", menu: .food, price: 8.49, orderCount: 0, price2: 8, ingredients: []),
-        MenuItem(title: "Fried Chicken", menu: .food, price: 11.99, orderCount: 0, price2: 12, ingredients: []),
-        MenuItem(title: "Lasagna", menu: .food, price: 13.99, orderCount: 1, price2: 14, ingredients: []),
-        MenuItem(title: "Salmon", menu: .food, price: 15.49, orderCount: 0, price2: 15, ingredients: []),
-        MenuItem(title: "Grilled Cheese", menu: .food, price: 6.99, orderCount: 0, price2: 7, ingredients: []),
-        MenuItem(title: "Chicken Alfredo", menu: .food, price: 12.49, orderCount: 0, price2: 12, ingredients: []),
-        MenuItem(title: "Caesar Salad", menu: .food, price: 7.99, orderCount: 0, price2: 8, ingredients: [])
+    let burgers: [FoodItem] = [
+        FoodItem(id: "food1", img: "https://loremflickr.com/320/240/food", name: "Truffle Zest Pasta", dsc: "Hand-rolled pappardelle in a creamy mushroom reduction.", price: 18.5, rating: 5, menu: .burgers),
+
+        FoodItem(id: "food2", img: "https://loremflickr.com/320/240/food", name: "Spicy Miso Ramen", dsc: "Rich pork broth with bamboo shoots and a marinated egg.", price: 14.0, rating: 4, menu: .burgers),
+
+        FoodItem(id: "food3", img: "https://loremflickr.com/320/240/food", name: "Artisan Wagyu Burger", dsc: "Double-stacked beef with caramelized onions and gruyère.", price: 22.0, rating: 5, menu: .burgers),
+
+        FoodItem(id: "food4", img: "https://loremflickr.com/320/240/food", name: "Garden Harvest Salad", dsc: "Seasonal greens, roasted beets, and a lemon-tahini dressing.", price: 12.5, rating: 3, menu: .burgers),
+
+        FoodItem(id: "food5", img: "https://loremflickr.com/320/240/food", name: "Crispy Peking Duck", dsc: "Traditional slow-roasted duck served with hoisin and pancakes.", price: 34.9, rating: 5, menu: .burgers),
+
+        FoodItem(id: "food6", img: "https://loremflickr.com/320/240/food", name: "Golden Turmeric Bowl", dsc: "Quinoa base topped with chickpeas and roasted cauliflower.", price: 15.75, rating: 4, menu: .burgers),
+
+        FoodItem(id: "food7", img: "https://loremflickr.com/320/240/food", name: "Smoked Salmon Bagel", dsc: "Everything bagel with capers, red onion, and dill cream cheese.", price: 11.2, rating: 4, menu: .burgers),
+
+        FoodItem(id: "food8", img: "https://loremflickr.com/320/240/food", name: "Neapolitan Margherita", dsc: "San Marzano tomatoes, fresh mozzarella, and basil leaves.", price: 16.5, rating: 5, menu: .burgers)
     ]
 
-    let drink: [MenuItem] = [
-        MenuItem(title: "Water", menu: .drink, price: 1.99, orderCount: 0, price2: 2, ingredients: []),
-        MenuItem(title: "Milk", menu: .drink, price: 2.49, orderCount: 2, price2: 2, ingredients: []),
-        MenuItem(title: "Coffee", menu: .drink, price: 3.49, orderCount: 0, price2: 3, ingredients: []),
-        MenuItem(title: "Tea", menu: .drink, price: 2.99, orderCount: 0, price2: 3, ingredients: []),
-        MenuItem(title: "Orange Juice", menu: .drink, price: 3.99, orderCount: 0, price2: 4, ingredients: []),
-        MenuItem(title: "Lemonade", menu: .drink, price: 2.99, orderCount: 0, price2: 3, ingredients: []),
-        MenuItem(title: "Smoothie", menu: .drink, price: 4.99, orderCount: 1, price2: 5, ingredients: []),
-        MenuItem(title: "Soda", menu: .drink, price: 1.99, orderCount: 0, price2: 2, ingredients: [])
+    let drinks: [FoodItem] = [
+        FoodItem(id: "drink1", img: "https://loremflickr.com/320/240/food", name: "Midnight Espresso Martini", dsc: "Cold brew concentrate shaken with organic vanilla bean syrup.", price: 13.5, rating: 5, menu: .drinks),
+
+        FoodItem(id: "drink2", img: "https://loremflickr.com/320/240/food", name: "Hibiscus Ginger Fizz", dsc: "Sparkling botanical tea infused with fresh ginger and lime zest.", price: 7.0, rating: 4, menu: .drinks),
+
+        FoodItem(id: "drink3", img: "https://loremflickr.com/320/240/food", name: "Velvet Matcha Latte", dsc: "Ceremonial grade matcha whisked with creamy oat milk and honey.", price: 6.5, rating: 5, menu: .drinks),
+
+        FoodItem(id: "drink4", img: "https://loremflickr.com/320/240/food", name: "Spiced Blood Orange Soda", dsc: "Hand-crafted soda with star anise and squeezed blood oranges.", price: 5.5, rating: 4, menu: .drinks)
     ]
 
-    let dessert: [MenuItem] = [
-        MenuItem(title: "Chocolate Cake", menu: .dessert, price: 4.99, orderCount: 0, price2: 5, ingredients: []),
-        MenuItem(title: "Ice Cream", menu: .dessert, price: 3.99, orderCount: 2, price2: 4, ingredients: []),
-        MenuItem(title: "Brownie", menu: .dessert, price: 2.99, orderCount: 0, price2: 3, ingredients: []),
-        MenuItem(title: "Cheesecake", menu: .dessert, price: 5.49, orderCount: 1, price2: 5, ingredients: [])
+    let desserts: [FoodItem] = [
+        FoodItem(id: "dessert1", img: "https://loremflickr.com/320/240/food", name: "Molten Lava Cake", dsc: "Dark chocolate ganache center served with Madagascar vanilla bean gelato.", price: 9.5, rating: 5, menu: .desserts),
+
+        FoodItem(id: "dessert2", img: "https://loremflickr.com/320/240/food", name: "Sicilian Lemon Tart", dsc: "Shortbread crust with zesty lemon curd and toasted Italian meringue.", price: 8.0, rating: 4, menu: .desserts),
+
+        FoodItem(id: "dessert3", img: "https://loremflickr.com/320/240/food", name: "Salted Caramel Cheesecake", dsc: "New York style cheesecake topped with sea salt and buttery caramel.", price: 10.5, rating: 5, menu: .desserts),
+
+        FoodItem(id: "dessert4", img: "https://loremflickr.com/320/240/food", name: "Matcha Tiramisu", dsc: "Ladyfingers soaked in green tea with light mascarpone cream layers.", price: 9.0, rating: 4, menu: .desserts)
     ]
 }
