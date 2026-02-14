@@ -3,9 +3,7 @@ import SwiftUI
 struct MenuItemsView: View {
 
     @State private var showMenuOptions: Bool = false
-
     @StateObject private var viewModel: MenuViewViewModel
-
     @State private var selectedItem: FoodItem?
 
     var category: MenuCategory
@@ -24,15 +22,23 @@ struct MenuItemsView: View {
     }
 
     var body: some View {
-
-        let navBarHeight: CGFloat = 0
-
-        ZStack(alignment: .top) {
+        VStack(spacing: 0) {
+            // Custom nav bar at the top
+            CustomNavBar(title: "Menu") {
+                showMenuOptions = true
+            }
+            .background(Color.blue)
+            .accessibilityIdentifier("CustomNavBar")
+            
+            // Main content
             NavigationStack {
                 ScrollView {
                     LazyVStack {
                         if viewModel.isLoading {
-                            ProgressView("Fetching deliciousness")
+                            Spacer()
+                                ProgressView("Fetching deliciousness")
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                Spacer()
                         } else if let error = viewModel.errorMessage {
                             Text("\(error) is the only thing keeping you away from sweets")
                         } else {
@@ -48,38 +54,25 @@ struct MenuItemsView: View {
                         }
                     }
                 }
-                .navigationTitle("Menu")
-                .listStyle(.plain)
-                .padding(.top, navBarHeight)
-
+                .accessibilityIdentifier("scrollView")
             }
             .sheet(item: $selectedItem) { item in
                 NavigationStack {
-                    MenuItemDetailsView(item: item
-                    )
-                    .navigationTitle(item.name)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button("Back") { selectedItem = nil }
+                    MenuItemDetailsView(item: item)
+                        .navigationTitle(item.name)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button("Back") { selectedItem = nil }
+                            }
                         }
-                    }
                 }
             }
-
-            CustomNavBar(title: "Menu", horizontal: 60, vertical: 46) {
-                showMenuOptions = true
-            }
-            .frame(maxWidth: .infinity)
-            .background(Color.blue)
-            .zIndex(1)
-            .sheet(isPresented: $showMenuOptions) {
-                MenuItemsOptionView(viewModel: viewModel)
-            }
-
+        }
+        .sheet(isPresented: $showMenuOptions) {
+            MenuItemsOptionView(viewModel: viewModel)
         }
         .task {
             await viewModel.loadApiData()
         }
-        .ignoresSafeArea(edges: .top)
     }
 }

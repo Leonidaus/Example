@@ -30,6 +30,7 @@ struct CategorySection: View {
                     Item(name: item.name, img: item.img)
                 }
                 .buttonStyle(.plain)
+                .accessibilityIdentifier("MenuItem_\(item.name)")
             }
             .padding(.horizontal)
         }

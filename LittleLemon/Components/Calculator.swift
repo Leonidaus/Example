@@ -6,7 +6,7 @@ struct CalculatorView: View {
     
     @State private var discountPercentage: Double = 0
     
-    var discountedAmount: Double {
+    internal var discountedAmount: Double {
         guard let priceValue = value else { return 0 }
         return priceValue * (discountPercentage / 100)
     }
@@ -23,7 +23,9 @@ struct CalculatorView: View {
             
             VStack {
                 Text("Discount: \(Int(discountPercentage))%")
+                    .accessibilityIdentifier("DiscountPercentageLabel")
                 Slider(value: $discountPercentage, in: 0...100)
+                    .accessibilityIdentifier("DiscountSlider")
             }
         }
         .padding()
