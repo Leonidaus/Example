@@ -1,20 +1,47 @@
 import Foundation
 
-struct MenuItem: Identifiable, MenuItemProtocol, Hashable {
-    let id = UUID()
+struct FoodItemDTO: Codable {
+    let id: String
+    let img: String
+    let name: String
+    let dsc: String
     let price: Double
-    let title: String
-    var menu: MenuCategory
-    var orderCount: Int
-    var price2: Int
-    var ingredients: [Ingredient]
+    let rating: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case id, img, name, dsc, price
+        case rating = "rate"
+    }
+}
 
-    init(title: String, menu: MenuCategory, price: Double, orderCount: Int = 0, price2: Int = 0, ingredients: [Ingredient] = []) {
-        self.title = title
+struct FoodItem: Identifiable {
+    let id: String
+    let img: String
+    let name: String
+    let dsc: String
+    let price: Double
+    let rating: Int
+    var menu: MenuCategory
+    
+    init(id: String?, img: String?, name: String?, dsc: String?, price: Double?, rating: Int?, menu: MenuCategory) {
+        self.id = id ?? ""
+        self.img = img ?? ""
+        self.name = name ?? ""
+        self.dsc = dsc ?? ""
+        self.price = price ?? 0.0
+        self.rating = rating ?? 0
         self.menu = menu
-        self.price = price
-        self.orderCount = orderCount
-        self.price2 = price2
-        self.ingredients = ingredients
+    }
+}
+
+extension FoodItem {
+    init(from dto: FoodItemDTO, category: MenuCategory) {
+        self.id = dto.id
+        self.img = dto.img
+        self.name = dto.name
+        self.dsc = dto.dsc
+        self.price = dto.price
+        self.rating = dto.rating
+        self.menu = category
     }
 }

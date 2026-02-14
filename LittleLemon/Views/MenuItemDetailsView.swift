@@ -1,11 +1,8 @@
 import SwiftUI
 
 struct MenuItemDetailsView: View {
-
-    let title: String
-    let price: Double
-    let orderCount: Int
-    let ingredients: [Ingredient]
+    
+    let item: FoodItem
 
     var body: some View {
         ScrollView {
@@ -22,26 +19,21 @@ struct MenuItemDetailsView: View {
 
                     Text("Price:")
                         .font(.headline)
-                    Text(String(format: "%.2f", price))
+                    Text(String(format: "%.2f", item.price))
 
-                    Text("Ordered:")
+                    Text("Rating:")
                         .font(.headline)
-                    Text("\(orderCount)")
+                    Text("\(item.rating)")
 
-                    Text("Ingredients:")
+                    Text("Description:")
                         .font(.headline)
-
-                    VStack(alignment: .leading) {
-                        ForEach(ingredients, id: \.self) { ingredient in
-                            Text(ingredient.rawValue)
-                        }
-                    }
+                    Text(item.dsc)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal)
             }
         }
-        .navigationTitle(title)
+        .navigationTitle(item.name)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
