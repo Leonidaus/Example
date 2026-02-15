@@ -39,16 +39,16 @@ jobs:
       
       - name: List and Boot simulator
         run: |
-        echo "Available simulators:"
-        xcrun simctl list devices available | grep "iPhone 16"
-        
-        echo "Booting simulator..."
-        UDID=$(xcrun simctl list devices | grep "iPhone 16 Pro.*26.1.*Shutdown" | grep -o '([A-F0-9-]\{36\})' | head -1 | tr -d '()')
-        echo "Simulator UDID: $UDID"
-        xcrun simctl boot "$UDID"
-        xcrun simctl bootstatus "$UDID" -b
-        
-        echo "Simulator booted successfully"
+          echo "Available simulators:"
+          xcrun simctl list devices available | grep "iPhone 16"
+          
+          echo "Booting simulator..."
+          UDID=$(xcrun simctl list devices | grep "iPhone 16 Pro.*26.1.*Shutdown" | grep -o '([A-F0-9-]\{36\})' | head -1 | tr -d '()')
+          echo "Simulator UDID: $UDID"
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          
+          echo "Simulator booted successfully"
           
       - name: Install SwiftLint
         run: brew install swiftlint
