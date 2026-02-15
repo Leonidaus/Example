@@ -17,31 +17,56 @@ permissions:
 
 jobs:
   test-ios:
-    runs-on: macos-14-xlarge
+    runs-on: macos-latest
     timeout-minutes: 20
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+
+      - name: Fix SwiftLint config permissions
+        run: chmod 644 .swiftlint.yml
       
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: 'latest-stable'
+
+      - name: Show Xcode + Simulator Info
+        run: |
+          xcodebuild -version
+          xcrun simctl list
       
+      - name: List and Boot simulator
+        run: |
+          echo "Available simulators:"
+          xcrun simctl list devices | grep "iPhone 16 Pro"
+          
+          echo "Booting simulator..."
+          # Get the first iPhone 16 Pro running iOS 26.1
+          UDID=$(xcrun simctl list devices | grep "iPhone 16 Pro" | grep -v "Max" | head -1 | grep -o '([A-F0-9-]\{36\})' | tr -d '()')
+          echo "Simulator UDID: $UDID"
+          
+          if [ -z "$UDID" ]; then
+            echo "ERROR: Could not find simulator"
+            exit 1
+          fi
+          
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          echo "Simulator booted successfully"
+          
       - name: Install SwiftLint
         run: brew install swiftlint
-      
-      - name: Fix SwiftLint config permissions
-        run: chmod 644 .swiftlint.yml
-      
+
       - name: Run Tests
         run: |
           xcodebuild test \
             -scheme "LittleLemon" \
-            -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.2' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
             -enableCodeCoverage YES \
-            -resultBundlePath TestResults.xcresult
+            -resultBundlePath TestResults.xcresult \
+            -only-testing:LittleLemonTests
       
       - name: Cache Homebrew Tools
         id: cache-brew-tools

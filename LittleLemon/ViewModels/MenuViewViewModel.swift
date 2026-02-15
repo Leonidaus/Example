@@ -62,7 +62,7 @@ class MenuViewViewModel: ObservableObject {
         self.dessertMenuItems = mock.desserts
     }
     
-    //MARK: 
+    // MARK: 
     
     var isBurgersSelected: Bool {
         selectedCategories.contains(.burgers)
