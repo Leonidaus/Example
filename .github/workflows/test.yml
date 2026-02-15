@@ -44,7 +44,7 @@ jobs:
         run: |
           xcodebuild test \
             -scheme "LittleLemon" \
-            -destination 'generic/platform=iOS Simulator' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=26.2' \
             -enableCodeCoverage YES \
             -resultBundlePath TestResults.xcresult
       
