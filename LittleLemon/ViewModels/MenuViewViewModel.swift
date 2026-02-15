@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import SwiftUI
 
 class MenuViewViewModel: ObservableObject {
 
@@ -8,6 +9,7 @@ class MenuViewViewModel: ObservableObject {
     @Published var dessertMenuItems: [FoodItem] = []
     @Published var selectedCategories: Set<SelectedCategory> = [.burgers, .drinks, .desserts]
     @Published var isLoading: Bool = false
+    @Published var isPreloadingImages: Bool = false
     @Published var errorMessage: String?
     
     private let networkManager: NetworkManaging
@@ -47,22 +49,57 @@ class MenuViewViewModel: ObservableObject {
                 self.dessertMenuItems = desserts.compactMap { FoodItem(from: $0, category: .desserts) }
                 self.isLoading = false
             }
+            
+            // Now prefetch images and wait for them
+            let allItems = burgerMenuItems + drinkMenuItems + dessertMenuItems
+            await prefetchImages(for: allItems)
+            
         } catch {
             await MainActor.run {
                 self.errorMessage = "Failed to load menu data. Please try again later."
                 self.isLoading = false
             }
         }
-        
     }
+    
+    func prefetchImages(for items: [FoodItem]) async {
+        await MainActor.run {
+            isPreloadingImages = true
+        }
+        
+        let scale = await MainActor.run { UIScreen.main.scale }
+        
+        await withTaskGroup(of: (String, UIImage?).self) { group in
+            for item in items {
+                guard let url = URL(string: item.img) else { continue }
+                
+                group.addTask {
+                    let image = await CachedAsyncImage<AnyView>.fetchAndProcess(
+                        url: url,
+                        scale: scale
+                    )
+                    return (item.img, image)
+                }
+            }
+            
+            for await (urlString, image) in group {
+                if let image = image {
+                    ImageCache.shared.set(urlString, image: image)
+                }
+            }
+        }
+        
+        await MainActor.run {
+            isPreloadingImages = false
+        }
+    }
+    
     func loadMockData() {
         let mock = MockMenuData()
         self.burgerMenuItems = mock.burgers
         self.drinkMenuItems = mock.drinks
         self.dessertMenuItems = mock.desserts
     }
-    
-    // MARK: 
     
     var isBurgersSelected: Bool {
         selectedCategories.contains(.burgers)
@@ -98,5 +135,4 @@ class MenuViewViewModel: ObservableObject {
             selectedCategories.insert(category)
         }
     }
-
 }
