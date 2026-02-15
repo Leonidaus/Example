@@ -65,8 +65,8 @@ jobs:
             -scheme "LittleLemon" \
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
             -enableCodeCoverage YES \
-            -resultBundlePath TestResults.xcresult
-            -only-testing:LittleLemonTests
+            -resultBundlePath TestResults.xcresult \
+            -only-testing:LittleLemonUITests
       
       - name: Cache Homebrew Tools
         id: cache-brew-tools
