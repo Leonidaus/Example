@@ -40,14 +40,20 @@ jobs:
       - name: List and Boot simulator
         run: |
           echo "Available simulators:"
-          xcrun simctl list devices available | grep "iPhone 16"
+          xcrun simctl list devices | grep "iPhone 16 Pro"
           
           echo "Booting simulator..."
-          UDID=$(xcrun simctl list devices | grep "iPhone 16 Pro.*26.1.*Shutdown" | grep -o '([A-F0-9-]\{36\})' | head -1 | tr -d '()')
+          # Get the first iPhone 16 Pro running iOS 26.1
+          UDID=$(xcrun simctl list devices | grep "iPhone 16 Pro" | grep -v "Max" | head -1 | grep -o '([A-F0-9-]\{36\})' | tr -d '()')
           echo "Simulator UDID: $UDID"
+          
+          if [ -z "$UDID" ]; then
+            echo "ERROR: Could not find simulator"
+            exit 1
+          fi
+          
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b
-          
           echo "Simulator booted successfully"
           
       - name: Install SwiftLint
@@ -57,7 +63,7 @@ jobs:
         run: |
           xcodebuild test \
             -scheme "LittleLemon" \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=26.2' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
             -enableCodeCoverage YES \
             -resultBundlePath TestResults.xcresult
       
