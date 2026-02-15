@@ -29,7 +29,7 @@ final class MenuItemTests: XCTestCase {
         XCTAssertEqual(item.menu, .burgers)
     }
     
-    func testFoodItemFromDTO_SuccessAndFailure() {
+    func testFoodItemFromDTO_SuccessAndFailure() throws {
         let validDTO = FoodItemDTO(
             id: "test-123",
             img: "https://example.com/image.jpg",  // valid URL
@@ -39,7 +39,7 @@ final class MenuItemTests: XCTestCase {
             rating: 5
         )
         
-        let validItem = try! XCTUnwrap(FoodItem(from: validDTO, category: .burgers))
+        let validItem = try XCTUnwrap(FoodItem(from: validDTO, category: .burgers))
         
         XCTAssertEqual(validItem.id, validDTO.id)
         XCTAssertEqual(validItem.name, validDTO.name)
@@ -55,7 +55,7 @@ final class MenuItemTests: XCTestCase {
         XCTAssertNil(item1, "FoodItem should be nil for invalid DTO with img: '\(invalidDTO1.img)'")
         
         let item2 = FoodItem(from: invalidDTO2, category: .burgers)
-        XCTAssertNotNil(item2, "FoodItem should not be for invalid DTO with img: '\(invalidDTO1.img)'")
+        XCTAssertNotNil(item2, "FoodItem should not be nil for invalid DTO with img: '\(invalidDTO2.img)'")
         // Intentionally let invalid pictures through
     }
 

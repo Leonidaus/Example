@@ -6,19 +6,8 @@ struct MenuItemsView: View {
     @StateObject private var viewModel: MenuViewViewModel
     @State private var selectedItem: FoodItem?
 
-    var category: MenuCategory
-
-    init(category: MenuCategory, viewModel: MenuViewViewModel = MenuViewViewModel()) {
-        self.category = category
+    init(viewModel: MenuViewViewModel = MenuViewViewModel()) {
         _viewModel = StateObject(wrappedValue: viewModel)
-    }
-
-    var items: [FoodItem] {
-        switch category {
-        case .burgers: return viewModel.burgerMenuItems
-        case .drinks: return viewModel.drinkMenuItems
-        case .desserts: return viewModel.dessertMenuItems
-        }
     }
 
     var body: some View {
@@ -35,10 +24,9 @@ struct MenuItemsView: View {
                 ScrollView {
                     LazyVStack {
                         if viewModel.isLoading {
-                            Spacer()
-                                ProgressView("Fetching deliciousness")
-                                    .progressViewStyle(CircularProgressViewStyle())
-                                Spacer()
+                            ProgressView("Fetching deliciousness")
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .padding()
                         } else if let error = viewModel.errorMessage {
                             Text("\(error) is the only thing keeping you away from sweets")
                         } else {

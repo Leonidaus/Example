@@ -7,7 +7,11 @@
 
 import Foundation
 
-class NetworkManager {
+protocol NetworkManaging {
+    func fetchMenu(category: String) async throws -> [FoodItemDTO]
+}
+
+class NetworkManager: NetworkManaging {
     static let shared = NetworkManager()
     private let baseURL = "https://free-food-menus-api-two.vercel.app/"
     
@@ -28,6 +32,19 @@ class NetworkManager {
         }
     }
     
+}
+
+class MockNetworkManager: NetworkManaging {
+    var shouldThrowError = false
+    var errorToThrow: NetworkError = .invalidResponse
+    var mockFoodItems: [FoodItemDTO] = []
+    
+    func fetchMenu(category: String) async throws -> [FoodItemDTO] {
+        if shouldThrowError {
+            throw errorToThrow
+        }
+        return mockFoodItems
+    }
 }
 
 enum NetworkError: Error {
