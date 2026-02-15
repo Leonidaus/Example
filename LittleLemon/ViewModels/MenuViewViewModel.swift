@@ -10,35 +10,23 @@ class MenuViewViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     
-    private let networkManager: NetworkManager
-    private let useMockData: Bool
-    
-    init(networkManager: NetworkManager = .shared, useMockData: Bool = false) {
-        self.networkManager = networkManager
-        
+    private let networkManager: NetworkManaging
+    private var useMockData: Bool {
         #if DEBUG
-        if ProcessInfo.processInfo.environment["MOCK_DATA"] == "1" {
-            self.useMockData = true
-        } else {
-            self.useMockData = useMockData
-        }
+        return ProcessInfo.processInfo.environment["MOCK_DATA"] == "1"
         #else
-        self.useMockData = useMockData
+        return false
         #endif
-        
+    }
+    
+    // Accept protocol in initializer
+    init(networkManager: NetworkManaging = NetworkManager.shared) {
+        self.networkManager = networkManager
         if self.useMockData {
             loadMockData()
         }
     }
-    var isBurgersSelected: Bool {
-        selectedCategories.contains(.burgers)
-    }
-    var isDrinksSelected: Bool {
-        selectedCategories.contains(.drinks)
-    }
-    var isDessertsSelected: Bool {
-        selectedCategories.contains(.desserts)
-    }
+
     func loadApiData() async {
         guard !useMockData else { return }
         
@@ -47,16 +35,16 @@ class MenuViewViewModel: ObservableObject {
             errorMessage = nil
         }
         do {
-            async let burgersDTO = NetworkManager.shared.fetchMenu(category: "burgers")
-            async let drinksDTO = NetworkManager.shared.fetchMenu(category: "drinks")
-            async let dessertsDTO = NetworkManager.shared.fetchMenu(category: "desserts")
+            async let burgersDTO = networkManager.fetchMenu(category: "burgers")
+            async let drinksDTO = networkManager.fetchMenu(category: "drinks")
+            async let dessertsDTO = networkManager.fetchMenu(category: "desserts")
             
             let (burgers, drinks, desserts) = try await (burgersDTO, drinksDTO, dessertsDTO)
             
             await MainActor.run {
-                self.burgerMenuItems = burgers.map { FoodItem(from: $0, category: .burgers) }
-                self.drinkMenuItems = drinks.map { FoodItem(from: $0, category: .drinks) }
-                self.dessertMenuItems = desserts.map { FoodItem(from: $0, category: .desserts) }
+                self.burgerMenuItems = burgers.compactMap { FoodItem(from: $0, category: .burgers) }
+                self.drinkMenuItems = drinks.compactMap { FoodItem(from: $0, category: .drinks) }
+                self.dessertMenuItems = desserts.compactMap { FoodItem(from: $0, category: .desserts) }
                 self.isLoading = false
             }
         } catch {
@@ -73,24 +61,34 @@ class MenuViewViewModel: ObservableObject {
         self.drinkMenuItems = mock.drinks
         self.dessertMenuItems = mock.desserts
     }
+    
+    //MARK: 
+    
+    var isBurgersSelected: Bool {
+        selectedCategories.contains(.burgers)
+    }
+    var isDrinksSelected: Bool {
+        selectedCategories.contains(.drinks)
+    }
+    var isDessertsSelected: Bool {
+        selectedCategories.contains(.desserts)
+    }
 
     func sortItems(by method: SortMenuItems) {
+        let sortClosure: (FoodItem, FoodItem) -> Bool
+        
         switch method {
         case .mostPopular:
-            burgerMenuItems.sort {$0.rating > $1.rating}
-            drinkMenuItems.sort {$0.rating > $1.rating}
-            dessertMenuItems.sort {$0.rating > $1.rating}
-
+            sortClosure = { $0.rating > $1.rating }
         case .price:
-            burgerMenuItems.sort {$0.price < $1.price}
-            drinkMenuItems.sort {$0.price < $1.price}
-            dessertMenuItems.sort {$0.price < $1.price}
-
+            sortClosure = { $0.price < $1.price }
         case .alphabet:
-            burgerMenuItems.sort {$0.name < $1.name}
-            drinkMenuItems.sort {$0.name < $1.name}
-            dessertMenuItems.sort {$0.name < $1.name}
+            sortClosure = { $0.name < $1.name }
         }
+        
+        burgerMenuItems.sort(by: sortClosure)
+        drinkMenuItems.sort(by: sortClosure)
+        dessertMenuItems.sort(by: sortClosure)
     }
 
     func toggleCategory(_ category: SelectedCategory) {

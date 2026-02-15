@@ -22,26 +22,18 @@ struct FoodItem: Identifiable {
     let price: Double
     let rating: Int
     var menu: MenuCategory
-    
-    init(id: String?, img: String?, name: String?, dsc: String?, price: Double?, rating: Int?, menu: MenuCategory) {
-        self.id = id ?? ""
-        self.img = img ?? ""
-        self.name = name ?? ""
-        self.dsc = dsc ?? ""
-        self.price = price ?? 0.0
-        self.rating = rating ?? 0
-        self.menu = menu
-    }
 }
 
 extension FoodItem {
-    init(from dto: FoodItemDTO, category: MenuCategory) {
-        self.id = dto.id
-        self.img = dto.img
-        self.name = dto.name
-        self.dsc = dto.dsc
-        self.price = dto.price
-        self.rating = dto.rating
-        self.menu = category
-    }
+    init?(from dto: FoodItemDTO, category: MenuCategory) {
+            // Reject empty or invalid image URLs
+            guard !dto.img.isEmpty, URL(string: dto.img) != nil else { return nil }
+            self.id = dto.id
+            self.img = dto.img
+            self.name = dto.name
+            self.dsc = dto.dsc
+            self.price = dto.price
+            self.rating = dto.rating
+            self.menu = category
+        }
 }
