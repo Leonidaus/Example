@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E50DAA002F43443C00E14782 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E50DA9FE2F43443C00E14782 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		E50C1B992F01906E00F920B7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,24 +31,12 @@
 		E50C1B8B2F01906A00F920B7 /* LittleLemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LittleLemon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E50C1B982F01906E00F920B7 /* LittleLemonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LittleLemonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E50C1BA22F01906E00F920B7 /* LittleLemonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LittleLemonUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E50DA9FE2F43443C00E14782 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		E50DA98D2F432FC500E14782 /* Exceptions for "LittleLemon" folder in "LittleLemon" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				README.md,
-			);
-			target = E50C1B8A2F01906A00F920B7 /* LittleLemon */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E50C1B8D2F01906A00F920B7 /* LittleLemon */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				E50DA98D2F432FC500E14782 /* Exceptions for "LittleLemon" folder in "LittleLemon" target */,
-			);
 			path = LittleLemon;
 			sourceTree = "<group>";
 		};
@@ -88,6 +80,7 @@
 		E50C1B822F01906A00F920B7 = {
 			isa = PBXGroup;
 			children = (
+				E50DA9FE2F43443C00E14782 /* README.md */,
 				E50C1B8D2F01906A00F920B7 /* LittleLemon */,
 				E50C1B9B2F01906E00F920B7 /* LittleLemonTests */,
 				E50C1BA52F01906E00F920B7 /* LittleLemonUITests */,
@@ -138,6 +131,7 @@
 				E50C1B942F01906E00F920B7 /* Sources */,
 				E50C1B952F01906E00F920B7 /* Frameworks */,
 				E50C1B962F01906E00F920B7 /* Resources */,
+				E513EADD2F3DEE830010FF7C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -161,6 +155,7 @@
 				E50C1B9E2F01906E00F920B7 /* Sources */,
 				E50C1B9F2F01906E00F920B7 /* Frameworks */,
 				E50C1BA02F01906E00F920B7 /* Resources */,
+				E513EADF2F3DEEC90010FF7C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -227,6 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E50DAA002F43443C00E14782 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,8 +243,9 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		E513EADE2F3DEEBC0010FF7C /* ShellScript */ = {
+		E513EADD2F3DEE830010FF7C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -262,7 +259,43 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin:/usr/local/bin\"\n\nif which swiftlint >/dev/null; then\n  cd \"${SRCROOT}\" || exit 0\n  swiftlint lint --config .swiftlint.yml || true\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		E513EADE2F3DEEBC0010FF7C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		E513EADF2F3DEEC90010FF7C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
