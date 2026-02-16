@@ -22,7 +22,7 @@ struct MenuItemsView: View {
             // Main content
             NavigationStack {
                 ScrollView {
-                    LazyVStack {
+                    VStack {
                         if viewModel.isLoading {
                             ProgressView("Fetching deliciousness")
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
