@@ -29,9 +29,33 @@
 		E50C1BA22F01906E00F920B7 /* LittleLemonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LittleLemonUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E50DA98D2F432FC500E14782 /* Exceptions for "LittleLemon" folder in "LittleLemon" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				README.md,
+			);
+			target = E50C1B8A2F01906A00F920B7 /* LittleLemon */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		E50DA98E2F432FC500E14782 /* Exceptions for "LittleLemon" folder in "Compile Sources" phase from "LittleLemon" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = E50C1B872F01906A00F920B7 /* Sources */;
+			membershipExceptions = (
+				README.md,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E50C1B8D2F01906A00F920B7 /* LittleLemon */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E50DA98D2F432FC500E14782 /* Exceptions for "LittleLemon" folder in "LittleLemon" target */,
+				E50DA98E2F432FC500E14782 /* Exceptions for "LittleLemon" folder in "Compile Sources" phase from "LittleLemon" target */,
+			);
 			path = LittleLemon;
 			sourceTree = "<group>";
 		};
