@@ -62,38 +62,6 @@ class MenuViewViewModel: ObservableObject {
         }
     }
     
-    func prefetchImages(for items: [FoodItem]) async {
-        await MainActor.run {
-            isPreloadingImages = true
-        }
-        
-        let scale = await MainActor.run { UIScreen.main.scale }
-        
-        await withTaskGroup(of: (String, UIImage?).self) { group in
-            for item in items {
-                guard let url = URL(string: item.img) else { continue }
-                
-                group.addTask {
-                    let image = await CachedAsyncImage<AnyView>.fetchAndProcess(
-                        url: url,
-                        scale: scale
-                    )
-                    return (item.img, image)
-                }
-            }
-            
-            for await (urlString, image) in group {
-                if let image = image {
-                    ImageCache.shared.set(urlString, image: image)
-                }
-            }
-        }
-        
-        await MainActor.run {
-            isPreloadingImages = false
-        }
-    }
-    
     func loadMockData() {
         let mock = MockMenuData()
         self.burgerMenuItems = mock.burgers
@@ -133,6 +101,38 @@ class MenuViewViewModel: ObservableObject {
             selectedCategories.remove(category)
         } else {
             selectedCategories.insert(category)
+        }
+    }
+    
+    func prefetchImages(for items: [FoodItem]) async {
+        await MainActor.run {
+            isPreloadingImages = true
+        }
+        
+        let scale = await MainActor.run { UIScreen.main.scale }
+        
+        await withTaskGroup(of: (String, UIImage?).self) { group in
+            for item in items {
+                guard let url = URL(string: item.img) else { continue }
+                
+                group.addTask {
+                    let image = await CachedAsyncImage<AnyView>.fetchAndProcess(
+                        url: url,
+                        scale: scale
+                    )
+                    return (item.img, image)
+                }
+            }
+            
+            for await (urlString, image) in group {
+                if let image = image {
+                    ImageCache.shared.set(urlString, image: image)
+                }
+            }
+        }
+        
+        await MainActor.run {
+            isPreloadingImages = false
         }
     }
 }

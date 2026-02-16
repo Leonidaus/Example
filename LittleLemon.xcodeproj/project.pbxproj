@@ -29,9 +29,22 @@
 		E50C1BA22F01906E00F920B7 /* LittleLemonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LittleLemonUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E50DA98D2F432FC500E14782 /* Exceptions for "LittleLemon" folder in "LittleLemon" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				README.md,
+			);
+			target = E50C1B8A2F01906A00F920B7 /* LittleLemon */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E50C1B8D2F01906A00F920B7 /* LittleLemon */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E50DA98D2F432FC500E14782 /* Exceptions for "LittleLemon" folder in "LittleLemon" target */,
+			);
 			path = LittleLemon;
 			sourceTree = "<group>";
 		};
@@ -125,7 +138,6 @@
 				E50C1B942F01906E00F920B7 /* Sources */,
 				E50C1B952F01906E00F920B7 /* Frameworks */,
 				E50C1B962F01906E00F920B7 /* Resources */,
-				E513EADD2F3DEE830010FF7C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -149,7 +161,6 @@
 				E50C1B9E2F01906E00F920B7 /* Sources */,
 				E50C1B9F2F01906E00F920B7 /* Frameworks */,
 				E50C1BA02F01906E00F920B7 /* Resources */,
-				E513EADF2F3DEEC90010FF7C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -236,41 +247,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		E513EADD2F3DEE830010FF7C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin:/usr/local/bin\"\n\nif which swiftlint >/dev/null; then\n  cd \"${SRCROOT}\" || exit 0\n  swiftlint lint --config .swiftlint.yml || true\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
 		E513EADE2F3DEEBC0010FF7C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin:/usr/local/bin\"\n\nif which swiftlint >/dev/null; then\n  cd \"${SRCROOT}\" || exit 0\n  swiftlint lint --config .swiftlint.yml || true\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-		E513EADF2F3DEEC90010FF7C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
